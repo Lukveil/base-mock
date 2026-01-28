@@ -1,0 +1,2203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan">
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="port" elementType="Argument">
+            <stringProp name="Argument.name">port</stringProp>
+            <stringProp name="Argument.value">8080</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="rps" elementType="Argument">
+            <stringProp name="Argument.name">rps</stringProp>
+            <stringProp name="Argument.value">720000</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </elementProp>
+    </TestPlan>
+    <hashTree>
+      <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
+        <collectionProp name="HeaderManager.headers">
+          <elementProp name="" elementType="Header">
+            <stringProp name="Header.name">Content-Type</stringProp>
+            <stringProp name="Header.value">application/json</stringProp>
+          </elementProp>
+        </collectionProp>
+      </HeaderManager>
+      <hashTree/>
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="bootstrap.servers" elementType="Argument">
+            <stringProp name="Argument.name">bootstrap.servers</stringProp>
+            <stringProp name="Argument.value">localhost:9092,localhost:9094.localhost:9096</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">Список брокеров</stringProp>
+          </elementProp>
+          <elementProp name="ssl.keystore.location" elementType="Argument">
+            <stringProp name="Argument.name">ssl.keystore.location</stringProp>
+            <stringProp name="Argument.value">~/kafka/cert/trustore.jks</stringProp>
+            <stringProp name="Argument.desc">Место хранения хранилища сертов(example)</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="ssl.keystore.password" elementType="Argument">
+            <stringProp name="Argument.name">ssl.keystore.password</stringProp>
+            <stringProp name="Argument.value">123456</stringProp>
+            <stringProp name="Argument.desc">Пароль от хранилища</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="TopicNameProduce" elementType="Argument">
+            <stringProp name="Argument.name">TopicNameProduce</stringProp>
+            <stringProp name="Argument.value">IN.test</stringProp>
+            <stringProp name="Argument.desc">входной топик</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="TopicNameConsume" elementType="Argument">
+            <stringProp name="Argument.name">TopicNameConsume</stringProp>
+            <stringProp name="Argument.value">OUT.test</stringProp>
+            <stringProp name="Argument.desc">Выходной топик</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="ConsumeGroup" elementType="Argument">
+            <stringProp name="Argument.name">ConsumeGroup</stringProp>
+            <stringProp name="Argument.value">group-test</stringProp>
+            <stringProp name="Argument.desc">Группа топиков</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="TestTopic" elementType="Argument">
+            <stringProp name="Argument.name">TestTopic</stringProp>
+            <stringProp name="Argument.value">test</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </Arguments>
+      <hashTree/>
+      <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="V1---------------------------------------------------------" enabled="false">
+        <stringProp name="filename"></stringProp>
+        <stringProp name="fileEncoding"></stringProp>
+        <stringProp name="variableNames"></stringProp>
+        <boolProp name="ignoreFirstLine">false</boolProp>
+        <stringProp name="delimiter">,</stringProp>
+        <boolProp name="quotedData">false</boolProp>
+        <boolProp name="recycle">true</boolProp>
+        <boolProp name="stopThread">false</boolProp>
+        <stringProp name="shareMode">shareMode.all</stringProp>
+      </CSVDataSet>
+      <hashTree/>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group /v2/checkAccount?acc=1234567893&amp;days=2">
+        <intProp name="ThreadGroup.num_threads">10</intProp>
+        <intProp name="ThreadGroup.ramp_time">0</intProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <intProp name="LoopController.loops">-1</intProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <ThroughputController guiclass="ThroughputControllerGui" testclass="ThroughputController" testname="/v2/checkAccount?acc=1234567893&amp;days=2">
+          <intProp name="ThroughputController.style">1</intProp>
+          <boolProp name="ThroughputController.perThread">false</boolProp>
+          <intProp name="ThroughputController.maxThroughput">1</intProp>
+          <stringProp name="ThroughputController.percentThroughput">${/v2/checkAccount}</stringProp>
+        </ThroughputController>
+        <hashTree>
+          <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Flow Control Action">
+            <intProp name="ActionProcessor.action">1</intProp>
+            <intProp name="ActionProcessor.target">0</intProp>
+            <stringProp name="ActionProcessor.duration">0</stringProp>
+          </TestAction>
+          <hashTree>
+            <ConstantThroughputTimer guiclass="TestBeanGUI" testclass="ConstantThroughputTimer" testname="Constant Throughput Timer">
+              <stringProp name="throughput">${rps}</stringProp>
+              <intProp name="calcMode">2</intProp>
+            </ConstantThroughputTimer>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/v2/checkAccount?acc=&amp;days=">
+            <stringProp name="HTTPSampler.domain">localhost</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">http</stringProp>
+            <stringProp name="HTTPSampler.path">/v2/checkAccount</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="acc" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">${__RandomString(10,0123456789,)}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">acc</stringProp>
+                </elementProp>
+                <elementProp name="days" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">${__Random(1,32,)}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                  <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                  <stringProp name="Argument.name">days</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="false">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="49586">200</stringProp>
+                <stringProp name="50549">302</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.custom_message"></stringProp>
+              <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">16</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">Content-Type</stringProp>
+                  <stringProp name="Header.value">application/json</stringProp>
+                </elementProp>
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">MyCount</stringProp>
+                  <stringProp name="Header.value">3</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group /v2/payment">
+        <intProp name="ThreadGroup.num_threads">10</intProp>
+        <intProp name="ThreadGroup.ramp_time">0</intProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <intProp name="LoopController.loops">-1</intProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <ThroughputController guiclass="ThroughputControllerGui" testclass="ThroughputController" testname="/v2/payment">
+          <intProp name="ThroughputController.style">1</intProp>
+          <boolProp name="ThroughputController.perThread">false</boolProp>
+          <intProp name="ThroughputController.maxThroughput">1</intProp>
+          <stringProp name="ThroughputController.percentThroughput">${/v2/payment}</stringProp>
+        </ThroughputController>
+        <hashTree>
+          <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Flow Control Action">
+            <intProp name="ActionProcessor.action">1</intProp>
+            <intProp name="ActionProcessor.target">0</intProp>
+            <stringProp name="ActionProcessor.duration">0</stringProp>
+          </TestAction>
+          <hashTree>
+            <ConstantThroughputTimer guiclass="TestBeanGUI" testclass="ConstantThroughputTimer" testname="Constant Throughput Timer">
+              <stringProp name="throughput">${rps}</stringProp>
+              <intProp name="calcMode">2</intProp>
+            </ConstantThroughputTimer>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/v2/payment">
+            <stringProp name="HTTPSampler.domain">localhost</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">http</stringProp>
+            <stringProp name="HTTPSampler.path">/v2/payment</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+	&quot;transaction_id&quot;: &quot;T-342-67777&quot;,&#xd;
+	&quot;sum&quot;: 133.12,&#xd;
+	&quot;need_processing&quot;: true&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="false">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="49586">200</stringProp>
+                <stringProp name="50549">302</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.custom_message"></stringProp>
+              <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">16</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">Content-Type</stringProp>
+                  <stringProp name="Header.value">application/json</stringProp>
+                </elementProp>
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">BankCode</stringProp>
+                  <stringProp name="Header.value">22</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group /v1/transactions/clear/{id}">
+        <intProp name="ThreadGroup.num_threads">10</intProp>
+        <intProp name="ThreadGroup.ramp_time">0</intProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <intProp name="LoopController.loops">-1</intProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <ThroughputController guiclass="ThroughputControllerGui" testclass="ThroughputController" testname="/v1/transactions/clear/{id}">
+          <intProp name="ThroughputController.style">1</intProp>
+          <boolProp name="ThroughputController.perThread">false</boolProp>
+          <intProp name="ThroughputController.maxThroughput">1</intProp>
+          <stringProp name="ThroughputController.percentThroughput">${/v1/transactions/cleare}</stringProp>
+        </ThroughputController>
+        <hashTree>
+          <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Flow Control Action">
+            <intProp name="ActionProcessor.action">1</intProp>
+            <intProp name="ActionProcessor.target">0</intProp>
+            <stringProp name="ActionProcessor.duration">0</stringProp>
+          </TestAction>
+          <hashTree>
+            <ConstantThroughputTimer guiclass="TestBeanGUI" testclass="ConstantThroughputTimer" testname="Constant Throughput Timer">
+              <stringProp name="throughput">${rps}</stringProp>
+              <intProp name="calcMode">2</intProp>
+            </ConstantThroughputTimer>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="/v1/transactions/clear/{id}">
+            <stringProp name="HTTPSampler.domain">localhost</stringProp>
+            <stringProp name="HTTPSampler.port">${port}</stringProp>
+            <stringProp name="HTTPSampler.protocol">http</stringProp>
+            <stringProp name="HTTPSampler.path">/v1/transactions/clear/${__RandomString(10,0123456789,)}</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">DELETE</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="" elementType="Header">
+                  <stringProp name="Header.name">Content-Type</stringProp>
+                  <stringProp name="Header.value">application/json</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+            <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="false">
+              <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="script">vars.put(&quot;transactionId&quot;, org.apache.commons.lang3.RandomStringUtils.randomNumeric(10))</stringProp>
+              <stringProp name="scriptLanguage">groovy</stringProp>
+            </JSR223PreProcessor>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+      </hashTree>
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="false">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <BackendListener guiclass="BackendListenerGui" testclass="BackendListener" testname="Backend Listener for influx 1.x">
+        <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments">
+          <collectionProp name="Arguments.arguments">
+            <elementProp name="influxdbMetricsSender" elementType="Argument">
+              <stringProp name="Argument.name">influxdbMetricsSender</stringProp>
+              <stringProp name="Argument.value">org.apache.jmeter.visualizers.backend.influxdb.HttpMetricsSender</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="influxdbUrl" elementType="Argument">
+              <stringProp name="Argument.name">influxdbUrl</stringProp>
+              <stringProp name="Argument.value">http://admin:adminpass@localhost:8086/write?db=jmeter</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="application" elementType="Argument">
+              <stringProp name="Argument.name">application</stringProp>
+              <stringProp name="Argument.value">application name</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="measurement" elementType="Argument">
+              <stringProp name="Argument.name">measurement</stringProp>
+              <stringProp name="Argument.value">jmeter</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="summaryOnly" elementType="Argument">
+              <stringProp name="Argument.name">summaryOnly</stringProp>
+              <stringProp name="Argument.value">false</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="samplersRegex" elementType="Argument">
+              <stringProp name="Argument.name">samplersRegex</stringProp>
+              <stringProp name="Argument.value">.*</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="percentiles" elementType="Argument">
+              <stringProp name="Argument.name">percentiles</stringProp>
+              <stringProp name="Argument.value">99;95</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="testTitle" elementType="Argument">
+              <stringProp name="Argument.name">testTitle</stringProp>
+              <stringProp name="Argument.value">Test name</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="eventTags" elementType="Argument">
+              <stringProp name="Argument.name">eventTags</stringProp>
+              <stringProp name="Argument.value"></stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+          </collectionProp>
+        </elementProp>
+        <stringProp name="classname">org.apache.jmeter.visualizers.backend.influxdb.InfluxdbBackendListenerClient</stringProp>
+      </BackendListener>
+      <hashTree/>
+      <kg.apc.jmeter.vizualizers.CorrectedResultCollector guiclass="kg.apc.jmeter.vizualizers.TransactionsPerSecondGui" testclass="kg.apc.jmeter.vizualizers.CorrectedResultCollector" testname="jp@gc - Transactions per Second" enabled="false">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+        <longProp name="interval_grouping">1000</longProp>
+        <boolProp name="graph_aggregated">false</boolProp>
+        <stringProp name="include_sample_labels"></stringProp>
+        <stringProp name="exclude_sample_labels"></stringProp>
+        <stringProp name="start_offset"></stringProp>
+        <stringProp name="end_offset"></stringProp>
+        <boolProp name="include_checkbox_state">false</boolProp>
+        <boolProp name="exclude_checkbox_state">false</boolProp>
+      </kg.apc.jmeter.vizualizers.CorrectedResultCollector>
+      <hashTree/>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group REST version" enabled="false">
+        <intProp name="ThreadGroup.num_threads">80</intProp>
+        <intProp name="ThreadGroup.ramp_time">1</intProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <intProp name="LoopController.loops">-1</intProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Product Transaction Controller" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import org.apache.commons.lang3.RandomStringUtils
+
+def length = new Random().nextInt(100) + 1  // Длина от 1 до 100
+def chars = &apos;0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM&apos;
+def randomString = RandomStringUtils.random(length, chars)
+
+vars.put(&quot;randomTitle&quot;, randomString)
+
+//vars.put(&quot;length&quot;, length) dont work</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Flow Control Action" enabled="true">
+            <intProp name="ActionProcessor.action">1</intProp>
+            <intProp name="ActionProcessor.target">0</intProp>
+            <stringProp name="ActionProcessor.duration">0</stringProp>
+          </TestAction>
+          <hashTree>
+            <ConstantThroughputTimer guiclass="TestBeanGUI" testclass="ConstantThroughputTimer" testname="Constant Throughput Timer" enabled="true">
+              <doubleProp>
+                <name>throughput</name>
+                <value>120000.0</value>
+                <savedValue>0.0</savedValue>
+              </doubleProp>
+              <intProp name="calcMode">2</intProp>
+            </ConstantThroughputTimer>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true">
+            <stringProp name="HTTPSampler.domain">localhost</stringProp>
+            <stringProp name="HTTPSampler.port">46563</stringProp>
+            <stringProp name="HTTPSampler.protocol">http</stringProp>
+            <stringProp name="HTTPSampler.path">product</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+    &quot;title&quot;:&quot;${randomTitle}&quot;,&#xd;
+    &quot;price&quot;: ${__Random(1,10000,)},&#xd;
+    &quot;quantity&quot;: ${__Random(1,100,)}&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group User" enabled="false">
+        <intProp name="ThreadGroup.num_threads">1</intProp>
+        <intProp name="ThreadGroup.ramp_time">1</intProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <stringProp name="LoopController.loops">1</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="User Transaction Controller" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler User" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import org.apache.commons.lang3.RandomStringUtils
+
+def length = new Random().nextInt(100) + 1  // Длина от 1 до 100
+def chars = &apos;0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM&apos;
+def name = RandomStringUtils.random(length, chars)
+def second_name = RandomStringUtils.random(length, chars)
+def last_name = RandomStringUtils.random(length, chars)
+def type = RandomStringUtils.random(length, chars)
+
+vars.put(&quot;name&quot;, name)
+vars.put(&quot;second_name&quot;, second_name)
+vars.put(&quot;last_name&quot;, last_name)
+vars.put(&quot;type&quot;, type)
+
+
+//vars.put(&quot;length&quot;, length) dont work</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager User" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Flow Control Action User" enabled="true">
+            <intProp name="ActionProcessor.action">1</intProp>
+            <intProp name="ActionProcessor.target">0</intProp>
+            <stringProp name="ActionProcessor.duration">0</stringProp>
+          </TestAction>
+          <hashTree>
+            <ConstantThroughputTimer guiclass="TestBeanGUI" testclass="ConstantThroughputTimer" testname="Constant Throughput Timer User" enabled="true">
+              <doubleProp>
+                <name>throughput</name>
+                <value>1200.0</value>
+                <savedValue>0.0</savedValue>
+              </doubleProp>
+              <intProp name="calcMode">2</intProp>
+            </ConstantThroughputTimer>
+            <hashTree/>
+          </hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request User product" enabled="false">
+            <stringProp name="HTTPSampler.domain">localhost</stringProp>
+            <stringProp name="HTTPSampler.port">46563</stringProp>
+            <stringProp name="HTTPSampler.protocol">http</stringProp>
+            <stringProp name="HTTPSampler.path">product</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+    &quot;name&quot;:&quot;${randomTitle}&quot;,&#xd;
+    &quot;second_name&quot;: &quot;${randomTitle}&quot;,&#xd;
+    &quot;last_name&quot;: &quot;${randomTitle}&quot;,&#xd;
+    &quot;type&quot;: &quot;${randomTitle}&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request User user" enabled="true">
+            <stringProp name="HTTPSampler.domain">localhost</stringProp>
+            <stringProp name="HTTPSampler.port">46563</stringProp>
+            <stringProp name="HTTPSampler.protocol">http</stringProp>
+            <stringProp name="HTTPSampler.path">test</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">{&#xd;
+    &quot;name&quot;:&quot;${randomTitle}&quot;,&#xd;
+    &quot;second_name&quot;: &quot;${randomTitle}&quot;,&#xd;
+    &quot;last_name&quot;: &quot;${randomTitle}&quot;,&#xd;
+    &quot;type&quot;: &quot;${randomTitle}&quot;&#xd;
+}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="V2---------------------------------------------------------" enabled="false">
+        <stringProp name="delimiter">,</stringProp>
+        <stringProp name="fileEncoding"></stringProp>
+        <stringProp name="filename"></stringProp>
+        <boolProp name="ignoreFirstLine">false</boolProp>
+        <boolProp name="quotedData">false</boolProp>
+        <boolProp name="recycle">true</boolProp>
+        <stringProp name="shareMode">shareMode.all</stringProp>
+        <boolProp name="stopThread">false</boolProp>
+        <stringProp name="variableNames"></stringProp>
+      </CSVDataSet>
+      <hashTree/>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group 5 ops" enabled="false">
+        <intProp name="ThreadGroup.num_threads">1</intProp>
+        <intProp name="ThreadGroup.ramp_time">1</intProp>
+        <longProp name="ThreadGroup.duration">300</longProp>
+        <longProp name="ThreadGroup.delay">0</longProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <stringProp name="LoopController.loops">1</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Flow Control Action" enabled="true">
+          <intProp name="ActionProcessor.action">1</intProp>
+          <intProp name="ActionProcessor.target">0</intProp>
+          <stringProp name="ActionProcessor.duration">0</stringProp>
+        </TestAction>
+        <hashTree>
+          <ConstantThroughputTimer guiclass="TestBeanGUI" testclass="ConstantThroughputTimer" testname="Constant Throughput Timer" enabled="true">
+            <intProp name="calcMode">0</intProp>
+            <doubleProp>
+              <name>throughput</name>
+              <value>300.0</value>
+              <savedValue>0.0</savedValue>
+            </doubleProp>
+          </ConstantThroughputTimer>
+          <hashTree/>
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Kafka Controller" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler test" enabled="false">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import org.apache.kafka.clients.producer.*
+import java.util.concurrent.*
+
+// 1. Получаем продюсер из пула
+def producer = props.get(&quot;kafkaProducers&quot;)[Thread.currentThread().getId() % props.get(&quot;kafkaProducers&quot;).size()]
+
+// 2. Параметры сообщения
+def topic = vars.get(&quot;kafka_topic&quot;) ?: &quot;test&quot;
+def messageKey = &quot;key_&quot; + System.currentTimeMillis()
+def messageValue = &quot;Async message &quot; + System.currentTimeMillis()
+
+// 3. Создаем запись
+def record = new ProducerRecord(topic, messageKey, messageValue)
+
+// 4. Atomic-счетчик для отслеживания статуса (для многопоточной среды)
+def callbackResult = new java.util.concurrent.atomic.AtomicBoolean(false)
+def callbackError = new java.util.concurrent.atomic.AtomicReference(null)
+
+// 5. Отправка с колбэком
+producer.send(record, new Callback() {
+    void onCompletion(RecordMetadata metadata, Exception e) {
+        if (e != null) {
+            callbackError.set(e)
+            log.error(&quot;Ошибка асинхронной отправки: ${e}&quot;)
+        } else {
+            callbackResult.set(true)
+            if (log.isDebugEnabled()) {
+                log.debug(&quot;Успешно отправлено: partition=${metadata.partition()}, offset=${metadata.offset()}&quot;)
+            }
+        }
+    }
+})
+
+// 6. Небольшая задержка для обработки колбэка (опционально)
+//Thread.sleep(50)
+
+// 7. Проверяем результат через атомарные переменные
+if (callbackError.get() != null) {
+    SampleResult.setSuccessful(false)
+    SampleResult.setResponseData((&quot;Async FAIL: &quot; + callbackError.get().toString()).getBytes(&quot;UTF-8&quot;))
+} else {
+    SampleResult.setSuccessful(true)
+    SampleResult.setResponseData(&quot;Async SENT&quot;.getBytes(&quot;UTF-8&quot;))
+}
+
+// 8. Принудительный flush (если нужно гарантировать отправку)
+// producer.flush()</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler main fast" enabled="false">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import org.apache.kafka.clients.producer.*
+import org.apache.kafka.common.header.Headers
+import org.apache.kafka.common.header.internals.RecordHeader
+import java.nio.charset.StandardCharsets
+
+// 1. Получаем случайного продюсера из пула
+def producers = props.get(&quot;kafkaProducers&quot;)
+def randomIndex = new Random().nextInt(producers.size())
+def producer = producers[randomIndex]
+
+// 2. Генерируем XML-сообщение
+def xmlMessage = &quot;&quot;&quot;
+		&lt;transaction&gt;
+		    &lt;id&gt;${UUID.randomUUID()}&lt;/id&gt;
+		    &lt;currency&gt;USD&lt;/currency&gt;
+		&lt;/transaction&gt;
+&quot;&quot;&quot;.trim().replaceAll(&quot;\t&quot;, &quot;&quot;)
+
+// 3. Создаем запись Ключ например txn_1752705499261
+def record = new ProducerRecord&lt;String, String&gt;(&quot;${TopicNameProduce}&quot;, 
+										&quot;txn_&quot; + System.currentTimeMillis(), 
+										xmlMessage)
+
+// 4. Добавляем headers
+record.headers().add(&quot;app-version&quot;, &quot;1.2.0&quot;.getBytes(StandardCharsets.UTF_8))
+
+try {
+    // 5. Отправка с callback (асинхронно)
+    producer.send(record, new Callback() {
+        void onCompletion(RecordMetadata metadata, Exception e) {
+            if (e) {
+                log.error(&quot;Kafka send failed: ${e}&quot;)
+            } else {
+                log.info(&quot;Sent to partition ${metadata.partition()}, offset ${metadata.offset()}&quot;)
+            }
+        }
+    })
+    
+    // 6. Для JMeter отметим успешную отправку
+    SampleResult.setResponseData(&quot;XML message sent&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCodeOK()
+    SampleResult.setSuccessful(true)
+    
+} catch (Exception e) {
+    SampleResult.setResponseData(&quot;Error: ${e.message}&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCode(&quot;500&quot;)
+    SampleResult.setSuccessful(false)
+    log.error(&quot;Exception in Kafka producer: ${e}&quot;)
+}</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler main fast custom" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import org.apache.kafka.clients.producer.*
+import org.apache.kafka.common.header.Headers
+import org.apache.kafka.common.header.internals.RecordHeader
+import java.nio.charset.StandardCharsets
+import org.apache.commons.lang3.RandomStringUtils
+import java.util.concurrent.LinkedBlockingQueue
+
+// 1. Получаем случайного продюсера из пула
+def producers = props.get(&quot;kafkaProducers&quot;)
+def randomIndex = new Random().nextInt(producers.size())
+def producer = producers[randomIndex]
+def length = new Random().nextInt(100) + 1  // Длина от 1 до 100
+def chars = &apos;0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM&apos;
+def randomString = RandomStringUtils.random(length, chars)
+
+//-------------
+// 1. Получаем очередь
+def queue = props.get(&quot;globalQueue&quot;) as LinkedBlockingQueue
+
+// 2. Если очередь пуста — генерируем новую партию из 10 элементов
+if (queue.isEmpty()) {
+    def newList = (2..10).collect { new Random().nextInt(9) + 2 }  // числа 2-10
+    newList.add(1)  // Добавляем единицу
+    Collections.shuffle(newList)
+    queue.addAll(newList)  // Заполняем очередь заново
+    log.info(&quot;Очередь обновлена: &quot; + queue)
+}
+
+// 3. Извлекаем элемент (poll() не блокирует поток)
+def extractedValue = queue.poll()
+
+if (extractedValue != null) {
+    log.info(&quot;Извлечено: &quot; + extractedValue)
+    vars.put(&quot;currentValue&quot;, extractedValue.toString())
+
+    // 4. Если это единица — логируем
+    if (extractedValue == 1) {
+        log.info(&quot;&gt;&gt;&gt; Это была единица! &lt;&lt;&lt;&quot;)
+    }
+} else {
+    log.warn(&quot;Очередь пуста (это не должно происходить)&quot;)
+}
+//--------------
+
+def head = true;
+
+log.info(&quot;ExtractedValue(random) number: ${extractedValue}&quot;);
+
+if(extractedValue&lt;2){
+	head = false;
+}
+
+// 2. Генерируем XML-сообщение
+def xmlMessage = &quot;&quot;&quot;
+{
+		&quot;head&quot;: ${head}, 
+		&quot;method&quot;: &quot;POST&quot;, 
+		&quot;uri&quot;: &quot;/post-message&quot;
+}
+&quot;&quot;&quot;.trim().replaceAll(&quot;\t&quot;, &quot;&quot;)
+
+// 3. Создаем запись Ключ например txn_1752705499261
+def record = new ProducerRecord&lt;String, String&gt;(&quot;${TopicNameProduce}&quot;, 
+										&quot;txn_&quot; + System.currentTimeMillis(), 
+										xmlMessage)
+
+// 4. Добавляем headers
+record.headers().add(&quot;app-version&quot;, &quot;1.2.0&quot;.getBytes(StandardCharsets.UTF_8))
+
+try {
+    // 5. Отправка с callback (асинхронно)
+    producer.send(record, new Callback() {
+        void onCompletion(RecordMetadata metadata, Exception e) {
+            if (e) {
+                log.error(&quot;Kafka send failed: ${e}&quot;)
+            } else {
+                log.info(&quot;Sent to partition ${metadata.partition()}, offset ${metadata.offset()}&quot;)
+            }
+        }
+    })
+    
+    // 6. Для JMeter отметим успешную отправку
+    SampleResult.setResponseData(&quot;XML message sent&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCodeOK()
+    SampleResult.setSuccessful(true)
+    
+} catch (Exception e) {
+    SampleResult.setResponseData(&quot;Error: ${e.message}&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCode(&quot;500&quot;)
+    SampleResult.setSuccessful(false)
+    log.error(&quot;Exception in Kafka producer: ${e}&quot;)
+}</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler main simple" enabled="false">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import org.apache.kafka.clients.producer.*
+import org.apache.kafka.common.header.Headers
+import org.apache.kafka.common.header.internals.RecordHeader
+import java.nio.charset.StandardCharsets
+
+// 1. Получаем случайного продюсера из пула
+def producers = props.get(&quot;kafkaProducers&quot;)
+def randomIndex = new Random().nextInt(producers.size())
+def producer = producers[randomIndex]
+
+// 2. Генерируем XML-сообщение
+def xmlMessage = &quot;&quot;&quot;
+		&lt;transaction&gt;
+		    &lt;id&gt;${UUID.randomUUID()}&lt;/id&gt;
+		    &lt;timestamp&gt;${System.currentTimeMillis()}&lt;/timestamp&gt;
+		    &lt;amount&gt;${100 + new Random().nextInt(900)}&lt;/amount&gt;
+		    &lt;currency&gt;USD&lt;/currency&gt;
+		    &lt;status&gt;PENDING&lt;/status&gt;
+		&lt;/transaction&gt;
+&quot;&quot;&quot;.trim().replaceAll(&quot;\t&quot;, &quot;&quot;)
+
+// 3. Создаем запись Ключ например txn_1752705499261
+def record = new ProducerRecord&lt;String, String&gt;(&quot;${TopicNameProduce}&quot;, 
+										&quot;txn_&quot; + System.currentTimeMillis(), 
+										xmlMessage)
+
+
+// 4. Добавляем headers
+record.headers().add(&quot;message-format&quot;, &quot;xml&quot;.getBytes(StandardCharsets.UTF_8))
+record.headers().add(&quot;app-version&quot;, &quot;1.2.0&quot;.getBytes(StandardCharsets.UTF_8))
+record.headers().add(&quot;correlation-id&quot;, UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8))
+record.headers().add(&quot;priority&quot;, &quot;high&quot;.getBytes(StandardCharsets.UTF_8))
+
+try {
+    // 5. Отправка с callback (асинхронно)
+    producer.send(record, new Callback() {
+        void onCompletion(RecordMetadata metadata, Exception e) {
+            if (e) {
+                log.error(&quot;Kafka send failed: ${e}&quot;)
+            } else {
+                log.info(&quot;Sent to partition ${metadata.partition()}, offset ${metadata.offset()}&quot;)
+            }
+        }
+    })
+    
+    // 6. Для JMeter отметим успешную отправку
+    SampleResult.setResponseData(&quot;XML message sent&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCodeOK()
+    SampleResult.setSuccessful(true)
+    
+} catch (Exception e) {
+    SampleResult.setResponseData(&quot;Error: ${e.message}&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCode(&quot;500&quot;)
+    SampleResult.setSuccessful(false)
+    log.error(&quot;Exception in Kafka producer: ${e}&quot;)
+}</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler main medium" enabled="false">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import org.apache.kafka.clients.producer.*
+import org.apache.kafka.common.header.Headers
+import org.apache.kafka.common.header.internals.RecordHeader
+import java.nio.charset.StandardCharsets
+
+// 1. Получаем случайного продюсера из пула
+def producers = props.get(&quot;kafkaProducers&quot;)
+def randomIndex = new Random().nextInt(producers.size())
+def producer = producers[randomIndex]
+
+// 2. Генерируем XML-сообщение
+def filePath = &quot;/home/reb/sobes/example.xml&quot;;
+log.info(&quot;Filepath: {}&quot;, filePath)
+def xmlContent = new File(filePath).getText(&quot;UTF-8&quot;);
+vars.put(&quot;xml_content&quot;, xmlContent);
+
+// 3. Создаем запись
+def record = new ProducerRecord&lt;String, String&gt;(&quot;${TopicNameProduce}&quot;, 
+										&quot;txn_&quot; + System.currentTimeMillis(), 
+										xmlMessage)
+
+
+// 4. Добавляем headers
+record.headers().add(&quot;message-format&quot;, &quot;xml&quot;.getBytes(StandardCharsets.UTF_8))
+record.headers().add(&quot;app-version&quot;, &quot;1.2.0&quot;.getBytes(StandardCharsets.UTF_8))
+record.headers().add(&quot;correlation-id&quot;, UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8))
+record.headers().add(&quot;priority&quot;, &quot;high&quot;.getBytes(StandardCharsets.UTF_8))
+
+try {
+    // 5. Отправка с callback (асинхронно)
+    producer.send(record, new Callback() {
+        void onCompletion(RecordMetadata metadata, Exception e) {
+            if (e) {
+                log.error(&quot;Kafka send failed: ${e}&quot;)
+            } else {
+                log.info(&quot;Sent to partition ${metadata.partition()}, offset ${metadata.offset()}&quot;)
+            }
+        }
+    })
+    
+    // 6. Для JMeter отметим успешную отправку
+    SampleResult.setResponseData(&quot;XML message sent&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCodeOK()
+    SampleResult.setSuccessful(true)
+    
+} catch (Exception e) {
+    SampleResult.setResponseData(&quot;Error: ${e.message}&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCode(&quot;500&quot;)
+    SampleResult.setSuccessful(false)
+    log.error(&quot;Exception in Kafka producer: ${e}&quot;)
+}</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group 10 ops" enabled="false">
+        <intProp name="ThreadGroup.num_threads">1</intProp>
+        <intProp name="ThreadGroup.ramp_time">1</intProp>
+        <longProp name="ThreadGroup.duration">300</longProp>
+        <longProp name="ThreadGroup.delay">300</longProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <stringProp name="LoopController.loops">1</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Flow Control Action" enabled="true">
+          <intProp name="ActionProcessor.action">1</intProp>
+          <intProp name="ActionProcessor.target">0</intProp>
+          <stringProp name="ActionProcessor.duration">0</stringProp>
+        </TestAction>
+        <hashTree>
+          <ConstantThroughputTimer guiclass="TestBeanGUI" testclass="ConstantThroughputTimer" testname="Constant Throughput Timer" enabled="true">
+            <intProp name="calcMode">0</intProp>
+            <doubleProp>
+              <name>throughput</name>
+              <value>600.0</value>
+              <savedValue>0.0</savedValue>
+            </doubleProp>
+          </ConstantThroughputTimer>
+          <hashTree/>
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Kafka Controller" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler test" enabled="false">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import org.apache.kafka.clients.producer.*
+import java.util.concurrent.*
+
+// 1. Получаем продюсер из пула
+def producer = props.get(&quot;kafkaProducers&quot;)[Thread.currentThread().getId() % props.get(&quot;kafkaProducers&quot;).size()]
+
+// 2. Параметры сообщения
+def topic = vars.get(&quot;kafka_topic&quot;) ?: &quot;test&quot;
+def messageKey = &quot;key_&quot; + System.currentTimeMillis()
+def messageValue = &quot;Async message &quot; + System.currentTimeMillis()
+
+// 3. Создаем запись
+def record = new ProducerRecord(topic, messageKey, messageValue)
+
+// 4. Atomic-счетчик для отслеживания статуса (для многопоточной среды)
+def callbackResult = new java.util.concurrent.atomic.AtomicBoolean(false)
+def callbackError = new java.util.concurrent.atomic.AtomicReference(null)
+
+// 5. Отправка с колбэком
+producer.send(record, new Callback() {
+    void onCompletion(RecordMetadata metadata, Exception e) {
+        if (e != null) {
+            callbackError.set(e)
+            log.error(&quot;Ошибка асинхронной отправки: ${e}&quot;)
+        } else {
+            callbackResult.set(true)
+            if (log.isDebugEnabled()) {
+                log.debug(&quot;Успешно отправлено: partition=${metadata.partition()}, offset=${metadata.offset()}&quot;)
+            }
+        }
+    }
+})
+
+// 6. Небольшая задержка для обработки колбэка (опционально)
+//Thread.sleep(50)
+
+// 7. Проверяем результат через атомарные переменные
+if (callbackError.get() != null) {
+    SampleResult.setSuccessful(false)
+    SampleResult.setResponseData((&quot;Async FAIL: &quot; + callbackError.get().toString()).getBytes(&quot;UTF-8&quot;))
+} else {
+    SampleResult.setSuccessful(true)
+    SampleResult.setResponseData(&quot;Async SENT&quot;.getBytes(&quot;UTF-8&quot;))
+}
+
+// 8. Принудительный flush (если нужно гарантировать отправку)
+// producer.flush()</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler main fast" enabled="false">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import org.apache.kafka.clients.producer.*
+import org.apache.kafka.common.header.Headers
+import org.apache.kafka.common.header.internals.RecordHeader
+import java.nio.charset.StandardCharsets
+
+// 1. Получаем случайного продюсера из пула
+def producers = props.get(&quot;kafkaProducers&quot;)
+def randomIndex = new Random().nextInt(producers.size())
+def producer = producers[randomIndex]
+
+// 2. Генерируем XML-сообщение
+def xmlMessage = &quot;&quot;&quot;
+		&lt;transaction&gt;
+		    &lt;id&gt;${UUID.randomUUID()}&lt;/id&gt;
+		    &lt;currency&gt;USD&lt;/currency&gt;
+		&lt;/transaction&gt;
+&quot;&quot;&quot;.trim().replaceAll(&quot;\t&quot;, &quot;&quot;)
+
+// 3. Создаем запись Ключ например txn_1752705499261
+def record = new ProducerRecord&lt;String, String&gt;(&quot;${TopicNameProduce}&quot;, 
+										&quot;txn_&quot; + System.currentTimeMillis(), 
+										xmlMessage)
+
+// 4. Добавляем headers
+record.headers().add(&quot;app-version&quot;, &quot;1.2.0&quot;.getBytes(StandardCharsets.UTF_8))
+
+try {
+    // 5. Отправка с callback (асинхронно)
+    producer.send(record, new Callback() {
+        void onCompletion(RecordMetadata metadata, Exception e) {
+            if (e) {
+                log.error(&quot;Kafka send failed: ${e}&quot;)
+            } else {
+                log.info(&quot;Sent to partition ${metadata.partition()}, offset ${metadata.offset()}&quot;)
+            }
+        }
+    })
+    
+    // 6. Для JMeter отметим успешную отправку
+    SampleResult.setResponseData(&quot;XML message sent&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCodeOK()
+    SampleResult.setSuccessful(true)
+    
+} catch (Exception e) {
+    SampleResult.setResponseData(&quot;Error: ${e.message}&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCode(&quot;500&quot;)
+    SampleResult.setSuccessful(false)
+    log.error(&quot;Exception in Kafka producer: ${e}&quot;)
+}</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler main fast custom" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import org.apache.kafka.clients.producer.*
+import org.apache.kafka.common.header.Headers
+import org.apache.kafka.common.header.internals.RecordHeader
+import java.nio.charset.StandardCharsets
+import org.apache.commons.lang3.RandomStringUtils
+import java.util.concurrent.LinkedBlockingQueue
+
+// 1. Получаем случайного продюсера из пула
+def producers = props.get(&quot;kafkaProducers&quot;)
+def randomIndex = new Random().nextInt(producers.size())
+def producer = producers[randomIndex]
+def length = new Random().nextInt(100) + 1  // Длина от 1 до 100
+def chars = &apos;0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM&apos;
+def randomString = RandomStringUtils.random(length, chars)
+
+//-------------
+// 1. Получаем очередь
+def queue = props.get(&quot;globalQueue&quot;) as LinkedBlockingQueue
+
+// 2. Если очередь пуста — генерируем новую партию из 10 элементов
+if (queue.isEmpty()) {
+    def newList = (2..10).collect { new Random().nextInt(9) + 2 }  // числа 2-10
+    newList.add(1)  // Добавляем единицу
+    Collections.shuffle(newList)
+    queue.addAll(newList)  // Заполняем очередь заново
+    log.info(&quot;Очередь обновлена: &quot; + queue)
+}
+
+// 3. Извлекаем элемент (poll() не блокирует поток)
+def extractedValue = queue.poll()
+
+if (extractedValue != null) {
+    log.info(&quot;Извлечено: &quot; + extractedValue)
+    vars.put(&quot;currentValue&quot;, extractedValue.toString())
+
+    // 4. Если это единица — логируем
+    if (extractedValue == 1) {
+        log.info(&quot;&gt;&gt;&gt; Это была единица! &lt;&lt;&lt;&quot;)
+    }
+} else {
+    log.warn(&quot;Очередь пуста (это не должно происходить)&quot;)
+}
+//--------------
+
+def head = true;
+
+log.info(&quot;ExtractedValue(random) number: ${extractedValue}&quot;);
+
+if(extractedValue&lt;2){
+	head = false;
+}
+
+// 2. Генерируем XML-сообщение
+def xmlMessage = &quot;&quot;&quot;
+{
+		&quot;head&quot;: ${head}, 
+		&quot;method&quot;: &quot;POST&quot;, 
+		&quot;uri&quot;: &quot;/post-message&quot;
+}
+&quot;&quot;&quot;.trim().replaceAll(&quot;\t&quot;, &quot;&quot;)
+
+// 3. Создаем запись Ключ например txn_1752705499261
+def record = new ProducerRecord&lt;String, String&gt;(&quot;${TopicNameProduce}&quot;, 
+										&quot;txn_&quot; + System.currentTimeMillis(), 
+										xmlMessage)
+
+// 4. Добавляем headers
+record.headers().add(&quot;app-version&quot;, &quot;1.2.0&quot;.getBytes(StandardCharsets.UTF_8))
+
+try {
+    // 5. Отправка с callback (асинхронно)
+    producer.send(record, new Callback() {
+        void onCompletion(RecordMetadata metadata, Exception e) {
+            if (e) {
+                log.error(&quot;Kafka send failed: ${e}&quot;)
+            } else {
+                log.info(&quot;Sent to partition ${metadata.partition()}, offset ${metadata.offset()}&quot;)
+            }
+        }
+    })
+    
+    // 6. Для JMeter отметим успешную отправку
+    SampleResult.setResponseData(&quot;XML message sent&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCodeOK()
+    SampleResult.setSuccessful(true)
+    
+} catch (Exception e) {
+    SampleResult.setResponseData(&quot;Error: ${e.message}&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCode(&quot;500&quot;)
+    SampleResult.setSuccessful(false)
+    log.error(&quot;Exception in Kafka producer: ${e}&quot;)
+}</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler main simple" enabled="false">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import org.apache.kafka.clients.producer.*
+import org.apache.kafka.common.header.Headers
+import org.apache.kafka.common.header.internals.RecordHeader
+import java.nio.charset.StandardCharsets
+
+// 1. Получаем случайного продюсера из пула
+def producers = props.get(&quot;kafkaProducers&quot;)
+def randomIndex = new Random().nextInt(producers.size())
+def producer = producers[randomIndex]
+
+// 2. Генерируем XML-сообщение
+def xmlMessage = &quot;&quot;&quot;
+		&lt;transaction&gt;
+		    &lt;id&gt;${UUID.randomUUID()}&lt;/id&gt;
+		    &lt;timestamp&gt;${System.currentTimeMillis()}&lt;/timestamp&gt;
+		    &lt;amount&gt;${100 + new Random().nextInt(900)}&lt;/amount&gt;
+		    &lt;currency&gt;USD&lt;/currency&gt;
+		    &lt;status&gt;PENDING&lt;/status&gt;
+		&lt;/transaction&gt;
+&quot;&quot;&quot;.trim().replaceAll(&quot;\t&quot;, &quot;&quot;)
+
+// 3. Создаем запись Ключ например txn_1752705499261
+def record = new ProducerRecord&lt;String, String&gt;(&quot;${TopicNameProduce}&quot;, 
+										&quot;txn_&quot; + System.currentTimeMillis(), 
+										xmlMessage)
+
+
+// 4. Добавляем headers
+record.headers().add(&quot;message-format&quot;, &quot;xml&quot;.getBytes(StandardCharsets.UTF_8))
+record.headers().add(&quot;app-version&quot;, &quot;1.2.0&quot;.getBytes(StandardCharsets.UTF_8))
+record.headers().add(&quot;correlation-id&quot;, UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8))
+record.headers().add(&quot;priority&quot;, &quot;high&quot;.getBytes(StandardCharsets.UTF_8))
+
+try {
+    // 5. Отправка с callback (асинхронно)
+    producer.send(record, new Callback() {
+        void onCompletion(RecordMetadata metadata, Exception e) {
+            if (e) {
+                log.error(&quot;Kafka send failed: ${e}&quot;)
+            } else {
+                log.info(&quot;Sent to partition ${metadata.partition()}, offset ${metadata.offset()}&quot;)
+            }
+        }
+    })
+    
+    // 6. Для JMeter отметим успешную отправку
+    SampleResult.setResponseData(&quot;XML message sent&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCodeOK()
+    SampleResult.setSuccessful(true)
+    
+} catch (Exception e) {
+    SampleResult.setResponseData(&quot;Error: ${e.message}&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCode(&quot;500&quot;)
+    SampleResult.setSuccessful(false)
+    log.error(&quot;Exception in Kafka producer: ${e}&quot;)
+}</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler main medium" enabled="false">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import org.apache.kafka.clients.producer.*
+import org.apache.kafka.common.header.Headers
+import org.apache.kafka.common.header.internals.RecordHeader
+import java.nio.charset.StandardCharsets
+
+// 1. Получаем случайного продюсера из пула
+def producers = props.get(&quot;kafkaProducers&quot;)
+def randomIndex = new Random().nextInt(producers.size())
+def producer = producers[randomIndex]
+
+// 2. Генерируем XML-сообщение
+def filePath = &quot;/home/reb/sobes/example.xml&quot;;
+log.info(&quot;Filepath: {}&quot;, filePath)
+def xmlContent = new File(filePath).getText(&quot;UTF-8&quot;);
+vars.put(&quot;xml_content&quot;, xmlContent);
+
+// 3. Создаем запись
+def record = new ProducerRecord&lt;String, String&gt;(&quot;${TopicNameProduce}&quot;, 
+										&quot;txn_&quot; + System.currentTimeMillis(), 
+										xmlMessage)
+
+
+// 4. Добавляем headers
+record.headers().add(&quot;message-format&quot;, &quot;xml&quot;.getBytes(StandardCharsets.UTF_8))
+record.headers().add(&quot;app-version&quot;, &quot;1.2.0&quot;.getBytes(StandardCharsets.UTF_8))
+record.headers().add(&quot;correlation-id&quot;, UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8))
+record.headers().add(&quot;priority&quot;, &quot;high&quot;.getBytes(StandardCharsets.UTF_8))
+
+try {
+    // 5. Отправка с callback (асинхронно)
+    producer.send(record, new Callback() {
+        void onCompletion(RecordMetadata metadata, Exception e) {
+            if (e) {
+                log.error(&quot;Kafka send failed: ${e}&quot;)
+            } else {
+                log.info(&quot;Sent to partition ${metadata.partition()}, offset ${metadata.offset()}&quot;)
+            }
+        }
+    })
+    
+    // 6. Для JMeter отметим успешную отправку
+    SampleResult.setResponseData(&quot;XML message sent&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCodeOK()
+    SampleResult.setSuccessful(true)
+    
+} catch (Exception e) {
+    SampleResult.setResponseData(&quot;Error: ${e.message}&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCode(&quot;500&quot;)
+    SampleResult.setSuccessful(false)
+    log.error(&quot;Exception in Kafka producer: ${e}&quot;)
+}</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group 12 ops" enabled="false">
+        <intProp name="ThreadGroup.num_threads">1</intProp>
+        <intProp name="ThreadGroup.ramp_time">1</intProp>
+        <longProp name="ThreadGroup.duration">300</longProp>
+        <longProp name="ThreadGroup.delay">600</longProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <stringProp name="LoopController.loops">1</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Flow Control Action" enabled="true">
+          <intProp name="ActionProcessor.action">1</intProp>
+          <intProp name="ActionProcessor.target">0</intProp>
+          <stringProp name="ActionProcessor.duration">0</stringProp>
+        </TestAction>
+        <hashTree>
+          <ConstantThroughputTimer guiclass="TestBeanGUI" testclass="ConstantThroughputTimer" testname="Constant Throughput Timer" enabled="true">
+            <intProp name="calcMode">0</intProp>
+            <doubleProp>
+              <name>throughput</name>
+              <value>720.0</value>
+              <savedValue>0.0</savedValue>
+            </doubleProp>
+          </ConstantThroughputTimer>
+          <hashTree/>
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Kafka Controller" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler test" enabled="false">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import org.apache.kafka.clients.producer.*
+import java.util.concurrent.*
+
+// 1. Получаем продюсер из пула
+def producer = props.get(&quot;kafkaProducers&quot;)[Thread.currentThread().getId() % props.get(&quot;kafkaProducers&quot;).size()]
+
+// 2. Параметры сообщения
+def topic = vars.get(&quot;kafka_topic&quot;) ?: &quot;test&quot;
+def messageKey = &quot;key_&quot; + System.currentTimeMillis()
+def messageValue = &quot;Async message &quot; + System.currentTimeMillis()
+
+// 3. Создаем запись
+def record = new ProducerRecord(topic, messageKey, messageValue)
+
+// 4. Atomic-счетчик для отслеживания статуса (для многопоточной среды)
+def callbackResult = new java.util.concurrent.atomic.AtomicBoolean(false)
+def callbackError = new java.util.concurrent.atomic.AtomicReference(null)
+
+// 5. Отправка с колбэком
+producer.send(record, new Callback() {
+    void onCompletion(RecordMetadata metadata, Exception e) {
+        if (e != null) {
+            callbackError.set(e)
+            log.error(&quot;Ошибка асинхронной отправки: ${e}&quot;)
+        } else {
+            callbackResult.set(true)
+            if (log.isDebugEnabled()) {
+                log.debug(&quot;Успешно отправлено: partition=${metadata.partition()}, offset=${metadata.offset()}&quot;)
+            }
+        }
+    }
+})
+
+// 6. Небольшая задержка для обработки колбэка (опционально)
+//Thread.sleep(50)
+
+// 7. Проверяем результат через атомарные переменные
+if (callbackError.get() != null) {
+    SampleResult.setSuccessful(false)
+    SampleResult.setResponseData((&quot;Async FAIL: &quot; + callbackError.get().toString()).getBytes(&quot;UTF-8&quot;))
+} else {
+    SampleResult.setSuccessful(true)
+    SampleResult.setResponseData(&quot;Async SENT&quot;.getBytes(&quot;UTF-8&quot;))
+}
+
+// 8. Принудительный flush (если нужно гарантировать отправку)
+// producer.flush()</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler main fast" enabled="false">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import org.apache.kafka.clients.producer.*
+import org.apache.kafka.common.header.Headers
+import org.apache.kafka.common.header.internals.RecordHeader
+import java.nio.charset.StandardCharsets
+
+// 1. Получаем случайного продюсера из пула
+def producers = props.get(&quot;kafkaProducers&quot;)
+def randomIndex = new Random().nextInt(producers.size())
+def producer = producers[randomIndex]
+
+// 2. Генерируем XML-сообщение
+def xmlMessage = &quot;&quot;&quot;
+		&lt;transaction&gt;
+		    &lt;id&gt;${UUID.randomUUID()}&lt;/id&gt;
+		    &lt;currency&gt;USD&lt;/currency&gt;
+		&lt;/transaction&gt;
+&quot;&quot;&quot;.trim().replaceAll(&quot;\t&quot;, &quot;&quot;)
+
+// 3. Создаем запись Ключ например txn_1752705499261
+def record = new ProducerRecord&lt;String, String&gt;(&quot;${TopicNameProduce}&quot;, 
+										&quot;txn_&quot; + System.currentTimeMillis(), 
+										xmlMessage)
+
+// 4. Добавляем headers
+record.headers().add(&quot;app-version&quot;, &quot;1.2.0&quot;.getBytes(StandardCharsets.UTF_8))
+
+try {
+    // 5. Отправка с callback (асинхронно)
+    producer.send(record, new Callback() {
+        void onCompletion(RecordMetadata metadata, Exception e) {
+            if (e) {
+                log.error(&quot;Kafka send failed: ${e}&quot;)
+            } else {
+                log.info(&quot;Sent to partition ${metadata.partition()}, offset ${metadata.offset()}&quot;)
+            }
+        }
+    })
+    
+    // 6. Для JMeter отметим успешную отправку
+    SampleResult.setResponseData(&quot;XML message sent&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCodeOK()
+    SampleResult.setSuccessful(true)
+    
+} catch (Exception e) {
+    SampleResult.setResponseData(&quot;Error: ${e.message}&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCode(&quot;500&quot;)
+    SampleResult.setSuccessful(false)
+    log.error(&quot;Exception in Kafka producer: ${e}&quot;)
+}</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler main fast custom" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import org.apache.kafka.clients.producer.*
+import org.apache.kafka.common.header.Headers
+import org.apache.kafka.common.header.internals.RecordHeader
+import java.nio.charset.StandardCharsets
+import org.apache.commons.lang3.RandomStringUtils
+import java.util.concurrent.LinkedBlockingQueue
+
+// 1. Получаем случайного продюсера из пула
+def producers = props.get(&quot;kafkaProducers&quot;)
+def randomIndex = new Random().nextInt(producers.size())
+def producer = producers[randomIndex]
+def length = new Random().nextInt(100) + 1  // Длина от 1 до 100
+def chars = &apos;0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM&apos;
+def randomString = RandomStringUtils.random(length, chars)
+
+//-------------
+// 1. Получаем очередь
+def queue = props.get(&quot;globalQueue&quot;) as LinkedBlockingQueue
+
+// 2. Если очередь пуста — генерируем новую партию из 10 элементов
+if (queue.isEmpty()) {
+    def newList = (2..10).collect { new Random().nextInt(9) + 2 }  // числа 2-10
+    newList.add(1)  // Добавляем единицу
+    Collections.shuffle(newList)
+    queue.addAll(newList)  // Заполняем очередь заново
+    log.info(&quot;Очередь обновлена: &quot; + queue)
+}
+
+// 3. Извлекаем элемент (poll() не блокирует поток)
+def extractedValue = queue.poll()
+
+if (extractedValue != null) {
+    log.info(&quot;Извлечено: &quot; + extractedValue)
+    vars.put(&quot;currentValue&quot;, extractedValue.toString())
+
+    // 4. Если это единица — логируем
+    if (extractedValue == 1) {
+        log.info(&quot;&gt;&gt;&gt; Это была единица! &lt;&lt;&lt;&quot;)
+    }
+} else {
+    log.warn(&quot;Очередь пуста (это не должно происходить)&quot;)
+}
+//--------------
+
+def head = true;
+
+log.info(&quot;ExtractedValue(random) number: ${extractedValue}&quot;);
+
+if(extractedValue&lt;2){
+	head = false;
+}
+
+// 2. Генерируем XML-сообщение
+def xmlMessage = &quot;&quot;&quot;
+{
+		&quot;head&quot;: ${head}, 
+		&quot;method&quot;: &quot;POST&quot;, 
+		&quot;uri&quot;: &quot;/post-message&quot;
+}
+&quot;&quot;&quot;.trim().replaceAll(&quot;\t&quot;, &quot;&quot;)
+
+// 3. Создаем запись Ключ например txn_1752705499261
+def record = new ProducerRecord&lt;String, String&gt;(&quot;${TopicNameProduce}&quot;, 
+										&quot;txn_&quot; + System.currentTimeMillis(), 
+										xmlMessage)
+
+// 4. Добавляем headers
+record.headers().add(&quot;app-version&quot;, &quot;1.2.0&quot;.getBytes(StandardCharsets.UTF_8))
+
+try {
+    // 5. Отправка с callback (асинхронно)
+    producer.send(record, new Callback() {
+        void onCompletion(RecordMetadata metadata, Exception e) {
+            if (e) {
+                log.error(&quot;Kafka send failed: ${e}&quot;)
+            } else {
+                log.info(&quot;Sent to partition ${metadata.partition()}, offset ${metadata.offset()}&quot;)
+            }
+        }
+    })
+    
+    // 6. Для JMeter отметим успешную отправку
+    SampleResult.setResponseData(&quot;XML message sent&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCodeOK()
+    SampleResult.setSuccessful(true)
+    
+} catch (Exception e) {
+    SampleResult.setResponseData(&quot;Error: ${e.message}&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCode(&quot;500&quot;)
+    SampleResult.setSuccessful(false)
+    log.error(&quot;Exception in Kafka producer: ${e}&quot;)
+}</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler main simple" enabled="false">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import org.apache.kafka.clients.producer.*
+import org.apache.kafka.common.header.Headers
+import org.apache.kafka.common.header.internals.RecordHeader
+import java.nio.charset.StandardCharsets
+
+// 1. Получаем случайного продюсера из пула
+def producers = props.get(&quot;kafkaProducers&quot;)
+def randomIndex = new Random().nextInt(producers.size())
+def producer = producers[randomIndex]
+
+// 2. Генерируем XML-сообщение
+def xmlMessage = &quot;&quot;&quot;
+		&lt;transaction&gt;
+		    &lt;id&gt;${UUID.randomUUID()}&lt;/id&gt;
+		    &lt;timestamp&gt;${System.currentTimeMillis()}&lt;/timestamp&gt;
+		    &lt;amount&gt;${100 + new Random().nextInt(900)}&lt;/amount&gt;
+		    &lt;currency&gt;USD&lt;/currency&gt;
+		    &lt;status&gt;PENDING&lt;/status&gt;
+		&lt;/transaction&gt;
+&quot;&quot;&quot;.trim().replaceAll(&quot;\t&quot;, &quot;&quot;)
+
+// 3. Создаем запись Ключ например txn_1752705499261
+def record = new ProducerRecord&lt;String, String&gt;(&quot;${TopicNameProduce}&quot;, 
+										&quot;txn_&quot; + System.currentTimeMillis(), 
+										xmlMessage)
+
+
+// 4. Добавляем headers
+record.headers().add(&quot;message-format&quot;, &quot;xml&quot;.getBytes(StandardCharsets.UTF_8))
+record.headers().add(&quot;app-version&quot;, &quot;1.2.0&quot;.getBytes(StandardCharsets.UTF_8))
+record.headers().add(&quot;correlation-id&quot;, UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8))
+record.headers().add(&quot;priority&quot;, &quot;high&quot;.getBytes(StandardCharsets.UTF_8))
+
+try {
+    // 5. Отправка с callback (асинхронно)
+    producer.send(record, new Callback() {
+        void onCompletion(RecordMetadata metadata, Exception e) {
+            if (e) {
+                log.error(&quot;Kafka send failed: ${e}&quot;)
+            } else {
+                log.info(&quot;Sent to partition ${metadata.partition()}, offset ${metadata.offset()}&quot;)
+            }
+        }
+    })
+    
+    // 6. Для JMeter отметим успешную отправку
+    SampleResult.setResponseData(&quot;XML message sent&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCodeOK()
+    SampleResult.setSuccessful(true)
+    
+} catch (Exception e) {
+    SampleResult.setResponseData(&quot;Error: ${e.message}&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCode(&quot;500&quot;)
+    SampleResult.setSuccessful(false)
+    log.error(&quot;Exception in Kafka producer: ${e}&quot;)
+}</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler main medium" enabled="false">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import org.apache.kafka.clients.producer.*
+import org.apache.kafka.common.header.Headers
+import org.apache.kafka.common.header.internals.RecordHeader
+import java.nio.charset.StandardCharsets
+
+// 1. Получаем случайного продюсера из пула
+def producers = props.get(&quot;kafkaProducers&quot;)
+def randomIndex = new Random().nextInt(producers.size())
+def producer = producers[randomIndex]
+
+// 2. Генерируем XML-сообщение
+def filePath = &quot;/home/reb/sobes/example.xml&quot;;
+log.info(&quot;Filepath: {}&quot;, filePath)
+def xmlContent = new File(filePath).getText(&quot;UTF-8&quot;);
+vars.put(&quot;xml_content&quot;, xmlContent);
+
+// 3. Создаем запись
+def record = new ProducerRecord&lt;String, String&gt;(&quot;${TopicNameProduce}&quot;, 
+										&quot;txn_&quot; + System.currentTimeMillis(), 
+										xmlMessage)
+
+
+// 4. Добавляем headers
+record.headers().add(&quot;message-format&quot;, &quot;xml&quot;.getBytes(StandardCharsets.UTF_8))
+record.headers().add(&quot;app-version&quot;, &quot;1.2.0&quot;.getBytes(StandardCharsets.UTF_8))
+record.headers().add(&quot;correlation-id&quot;, UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8))
+record.headers().add(&quot;priority&quot;, &quot;high&quot;.getBytes(StandardCharsets.UTF_8))
+
+try {
+    // 5. Отправка с callback (асинхронно)
+    producer.send(record, new Callback() {
+        void onCompletion(RecordMetadata metadata, Exception e) {
+            if (e) {
+                log.error(&quot;Kafka send failed: ${e}&quot;)
+            } else {
+                log.info(&quot;Sent to partition ${metadata.partition()}, offset ${metadata.offset()}&quot;)
+            }
+        }
+    })
+    
+    // 6. Для JMeter отметим успешную отправку
+    SampleResult.setResponseData(&quot;XML message sent&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCodeOK()
+    SampleResult.setSuccessful(true)
+    
+} catch (Exception e) {
+    SampleResult.setResponseData(&quot;Error: ${e.message}&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCode(&quot;500&quot;)
+    SampleResult.setSuccessful(false)
+    log.error(&quot;Exception in Kafka producer: ${e}&quot;)
+}</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group 14 ops" enabled="false">
+        <intProp name="ThreadGroup.num_threads">1</intProp>
+        <intProp name="ThreadGroup.ramp_time">1</intProp>
+        <longProp name="ThreadGroup.duration">300</longProp>
+        <longProp name="ThreadGroup.delay">900</longProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <stringProp name="LoopController.loops">1</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Flow Control Action" enabled="true">
+          <intProp name="ActionProcessor.action">1</intProp>
+          <intProp name="ActionProcessor.target">0</intProp>
+          <stringProp name="ActionProcessor.duration">0</stringProp>
+        </TestAction>
+        <hashTree>
+          <ConstantThroughputTimer guiclass="TestBeanGUI" testclass="ConstantThroughputTimer" testname="Constant Throughput Timer" enabled="true">
+            <intProp name="calcMode">0</intProp>
+            <doubleProp>
+              <name>throughput</name>
+              <value>840.0</value>
+              <savedValue>0.0</savedValue>
+            </doubleProp>
+          </ConstantThroughputTimer>
+          <hashTree/>
+        </hashTree>
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Kafka Controller" enabled="true">
+          <boolProp name="TransactionController.includeTimers">false</boolProp>
+        </TransactionController>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler test" enabled="false">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import org.apache.kafka.clients.producer.*
+import java.util.concurrent.*
+
+// 1. Получаем продюсер из пула
+def producer = props.get(&quot;kafkaProducers&quot;)[Thread.currentThread().getId() % props.get(&quot;kafkaProducers&quot;).size()]
+
+// 2. Параметры сообщения
+def topic = vars.get(&quot;kafka_topic&quot;) ?: &quot;test&quot;
+def messageKey = &quot;key_&quot; + System.currentTimeMillis()
+def messageValue = &quot;Async message &quot; + System.currentTimeMillis()
+
+// 3. Создаем запись
+def record = new ProducerRecord(topic, messageKey, messageValue)
+
+// 4. Atomic-счетчик для отслеживания статуса (для многопоточной среды)
+def callbackResult = new java.util.concurrent.atomic.AtomicBoolean(false)
+def callbackError = new java.util.concurrent.atomic.AtomicReference(null)
+
+// 5. Отправка с колбэком
+producer.send(record, new Callback() {
+    void onCompletion(RecordMetadata metadata, Exception e) {
+        if (e != null) {
+            callbackError.set(e)
+            log.error(&quot;Ошибка асинхронной отправки: ${e}&quot;)
+        } else {
+            callbackResult.set(true)
+            if (log.isDebugEnabled()) {
+                log.debug(&quot;Успешно отправлено: partition=${metadata.partition()}, offset=${metadata.offset()}&quot;)
+            }
+        }
+    }
+})
+
+// 6. Небольшая задержка для обработки колбэка (опционально)
+//Thread.sleep(50)
+
+// 7. Проверяем результат через атомарные переменные
+if (callbackError.get() != null) {
+    SampleResult.setSuccessful(false)
+    SampleResult.setResponseData((&quot;Async FAIL: &quot; + callbackError.get().toString()).getBytes(&quot;UTF-8&quot;))
+} else {
+    SampleResult.setSuccessful(true)
+    SampleResult.setResponseData(&quot;Async SENT&quot;.getBytes(&quot;UTF-8&quot;))
+}
+
+// 8. Принудительный flush (если нужно гарантировать отправку)
+// producer.flush()</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler main fast" enabled="false">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import org.apache.kafka.clients.producer.*
+import org.apache.kafka.common.header.Headers
+import org.apache.kafka.common.header.internals.RecordHeader
+import java.nio.charset.StandardCharsets
+
+// 1. Получаем случайного продюсера из пула
+def producers = props.get(&quot;kafkaProducers&quot;)
+def randomIndex = new Random().nextInt(producers.size())
+def producer = producers[randomIndex]
+
+// 2. Генерируем XML-сообщение
+def xmlMessage = &quot;&quot;&quot;
+		&lt;transaction&gt;
+		    &lt;id&gt;${UUID.randomUUID()}&lt;/id&gt;
+		    &lt;currency&gt;USD&lt;/currency&gt;
+		&lt;/transaction&gt;
+&quot;&quot;&quot;.trim().replaceAll(&quot;\t&quot;, &quot;&quot;)
+
+// 3. Создаем запись Ключ например txn_1752705499261
+def record = new ProducerRecord&lt;String, String&gt;(&quot;${TopicNameProduce}&quot;, 
+										&quot;txn_&quot; + System.currentTimeMillis(), 
+										xmlMessage)
+
+// 4. Добавляем headers
+record.headers().add(&quot;app-version&quot;, &quot;1.2.0&quot;.getBytes(StandardCharsets.UTF_8))
+
+try {
+    // 5. Отправка с callback (асинхронно)
+    producer.send(record, new Callback() {
+        void onCompletion(RecordMetadata metadata, Exception e) {
+            if (e) {
+                log.error(&quot;Kafka send failed: ${e}&quot;)
+            } else {
+                log.info(&quot;Sent to partition ${metadata.partition()}, offset ${metadata.offset()}&quot;)
+            }
+        }
+    })
+    
+    // 6. Для JMeter отметим успешную отправку
+    SampleResult.setResponseData(&quot;XML message sent&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCodeOK()
+    SampleResult.setSuccessful(true)
+    
+} catch (Exception e) {
+    SampleResult.setResponseData(&quot;Error: ${e.message}&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCode(&quot;500&quot;)
+    SampleResult.setSuccessful(false)
+    log.error(&quot;Exception in Kafka producer: ${e}&quot;)
+}</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler main fast custom" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import org.apache.kafka.clients.producer.*
+import org.apache.kafka.common.header.Headers
+import org.apache.kafka.common.header.internals.RecordHeader
+import java.nio.charset.StandardCharsets
+import org.apache.commons.lang3.RandomStringUtils
+import java.util.concurrent.LinkedBlockingQueue
+
+// 1. Получаем случайного продюсера из пула
+def producers = props.get(&quot;kafkaProducers&quot;)
+def randomIndex = new Random().nextInt(producers.size())
+def producer = producers[randomIndex]
+def length = new Random().nextInt(100) + 1  // Длина от 1 до 100
+def chars = &apos;0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM&apos;
+def randomString = RandomStringUtils.random(length, chars)
+
+//-------------
+// 1. Получаем очередь
+def queue = props.get(&quot;globalQueue&quot;) as LinkedBlockingQueue
+
+// 2. Если очередь пуста — генерируем новую партию из 10 элементов
+if (queue.isEmpty()) {
+    def newList = (2..10).collect { new Random().nextInt(9) + 2 }  // числа 2-10
+    newList.add(1)  // Добавляем единицу
+    Collections.shuffle(newList)
+    queue.addAll(newList)  // Заполняем очередь заново
+    log.info(&quot;Очередь обновлена: &quot; + queue)
+}
+
+// 3. Извлекаем элемент (poll() не блокирует поток)
+def extractedValue = queue.poll()
+
+if (extractedValue != null) {
+    log.info(&quot;Извлечено: &quot; + extractedValue)
+    vars.put(&quot;currentValue&quot;, extractedValue.toString())
+
+    // 4. Если это единица — логируем
+    if (extractedValue == 1) {
+        log.info(&quot;&gt;&gt;&gt; Это была единица! &lt;&lt;&lt;&quot;)
+    }
+} else {
+    log.warn(&quot;Очередь пуста (это не должно происходить)&quot;)
+}
+//--------------
+
+def head = true;
+
+log.info(&quot;ExtractedValue(random) number: ${extractedValue}&quot;);
+
+if(extractedValue&lt;2){
+	head = false;
+}
+
+// 2. Генерируем XML-сообщение
+def xmlMessage = &quot;&quot;&quot;
+{
+		&quot;head&quot;: ${head}, 
+		&quot;method&quot;: &quot;POST&quot;, 
+		&quot;uri&quot;: &quot;/post-message&quot;
+}
+&quot;&quot;&quot;.trim().replaceAll(&quot;\t&quot;, &quot;&quot;)
+
+// 3. Создаем запись Ключ например txn_1752705499261
+def record = new ProducerRecord&lt;String, String&gt;(&quot;${TopicNameProduce}&quot;, 
+										&quot;txn_&quot; + System.currentTimeMillis(), 
+										xmlMessage)
+
+// 4. Добавляем headers
+record.headers().add(&quot;app-version&quot;, &quot;1.2.0&quot;.getBytes(StandardCharsets.UTF_8))
+
+try {
+    // 5. Отправка с callback (асинхронно)
+    producer.send(record, new Callback() {
+        void onCompletion(RecordMetadata metadata, Exception e) {
+            if (e) {
+                log.error(&quot;Kafka send failed: ${e}&quot;)
+            } else {
+                log.info(&quot;Sent to partition ${metadata.partition()}, offset ${metadata.offset()}&quot;)
+            }
+        }
+    })
+    
+    // 6. Для JMeter отметим успешную отправку
+    SampleResult.setResponseData(&quot;XML message sent&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCodeOK()
+    SampleResult.setSuccessful(true)
+    
+} catch (Exception e) {
+    SampleResult.setResponseData(&quot;Error: ${e.message}&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCode(&quot;500&quot;)
+    SampleResult.setSuccessful(false)
+    log.error(&quot;Exception in Kafka producer: ${e}&quot;)
+}</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler main simple" enabled="false">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import org.apache.kafka.clients.producer.*
+import org.apache.kafka.common.header.Headers
+import org.apache.kafka.common.header.internals.RecordHeader
+import java.nio.charset.StandardCharsets
+
+// 1. Получаем случайного продюсера из пула
+def producers = props.get(&quot;kafkaProducers&quot;)
+def randomIndex = new Random().nextInt(producers.size())
+def producer = producers[randomIndex]
+
+// 2. Генерируем XML-сообщение
+def xmlMessage = &quot;&quot;&quot;
+		&lt;transaction&gt;
+		    &lt;id&gt;${UUID.randomUUID()}&lt;/id&gt;
+		    &lt;timestamp&gt;${System.currentTimeMillis()}&lt;/timestamp&gt;
+		    &lt;amount&gt;${100 + new Random().nextInt(900)}&lt;/amount&gt;
+		    &lt;currency&gt;USD&lt;/currency&gt;
+		    &lt;status&gt;PENDING&lt;/status&gt;
+		&lt;/transaction&gt;
+&quot;&quot;&quot;.trim().replaceAll(&quot;\t&quot;, &quot;&quot;)
+
+// 3. Создаем запись Ключ например txn_1752705499261
+def record = new ProducerRecord&lt;String, String&gt;(&quot;${TopicNameProduce}&quot;, 
+										&quot;txn_&quot; + System.currentTimeMillis(), 
+										xmlMessage)
+
+
+// 4. Добавляем headers
+record.headers().add(&quot;message-format&quot;, &quot;xml&quot;.getBytes(StandardCharsets.UTF_8))
+record.headers().add(&quot;app-version&quot;, &quot;1.2.0&quot;.getBytes(StandardCharsets.UTF_8))
+record.headers().add(&quot;correlation-id&quot;, UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8))
+record.headers().add(&quot;priority&quot;, &quot;high&quot;.getBytes(StandardCharsets.UTF_8))
+
+try {
+    // 5. Отправка с callback (асинхронно)
+    producer.send(record, new Callback() {
+        void onCompletion(RecordMetadata metadata, Exception e) {
+            if (e) {
+                log.error(&quot;Kafka send failed: ${e}&quot;)
+            } else {
+                log.info(&quot;Sent to partition ${metadata.partition()}, offset ${metadata.offset()}&quot;)
+            }
+        }
+    })
+    
+    // 6. Для JMeter отметим успешную отправку
+    SampleResult.setResponseData(&quot;XML message sent&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCodeOK()
+    SampleResult.setSuccessful(true)
+    
+} catch (Exception e) {
+    SampleResult.setResponseData(&quot;Error: ${e.message}&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCode(&quot;500&quot;)
+    SampleResult.setSuccessful(false)
+    log.error(&quot;Exception in Kafka producer: ${e}&quot;)
+}</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler main medium" enabled="false">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">import org.apache.kafka.clients.producer.*
+import org.apache.kafka.common.header.Headers
+import org.apache.kafka.common.header.internals.RecordHeader
+import java.nio.charset.StandardCharsets
+
+// 1. Получаем случайного продюсера из пула
+def producers = props.get(&quot;kafkaProducers&quot;)
+def randomIndex = new Random().nextInt(producers.size())
+def producer = producers[randomIndex]
+
+// 2. Генерируем XML-сообщение
+def filePath = &quot;/home/reb/sobes/example.xml&quot;;
+log.info(&quot;Filepath: {}&quot;, filePath)
+def xmlContent = new File(filePath).getText(&quot;UTF-8&quot;);
+vars.put(&quot;xml_content&quot;, xmlContent);
+
+// 3. Создаем запись
+def record = new ProducerRecord&lt;String, String&gt;(&quot;${TopicNameProduce}&quot;, 
+										&quot;txn_&quot; + System.currentTimeMillis(), 
+										xmlMessage)
+
+
+// 4. Добавляем headers
+record.headers().add(&quot;message-format&quot;, &quot;xml&quot;.getBytes(StandardCharsets.UTF_8))
+record.headers().add(&quot;app-version&quot;, &quot;1.2.0&quot;.getBytes(StandardCharsets.UTF_8))
+record.headers().add(&quot;correlation-id&quot;, UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8))
+record.headers().add(&quot;priority&quot;, &quot;high&quot;.getBytes(StandardCharsets.UTF_8))
+
+try {
+    // 5. Отправка с callback (асинхронно)
+    producer.send(record, new Callback() {
+        void onCompletion(RecordMetadata metadata, Exception e) {
+            if (e) {
+                log.error(&quot;Kafka send failed: ${e}&quot;)
+            } else {
+                log.info(&quot;Sent to partition ${metadata.partition()}, offset ${metadata.offset()}&quot;)
+            }
+        }
+    })
+    
+    // 6. Для JMeter отметим успешную отправку
+    SampleResult.setResponseData(&quot;XML message sent&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCodeOK()
+    SampleResult.setSuccessful(true)
+    
+} catch (Exception e) {
+    SampleResult.setResponseData(&quot;Error: ${e.message}&quot;.getBytes(&quot;UTF-8&quot;))
+    SampleResult.setResponseCode(&quot;500&quot;)
+    SampleResult.setSuccessful(false)
+    log.error(&quot;Exception in Kafka producer: ${e}&quot;)
+}</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

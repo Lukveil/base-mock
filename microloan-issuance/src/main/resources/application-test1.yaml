@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: Microloan Issuance
+  datasource:
+    url: jdbc:h2:file:~/home/hol/IdeaProjects/demo/h2
+    username: sa
+    password: ""
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: false
+        web-allow-others: true
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: 7770  # Явное указание порта
+management:
+  server:
+    port: 8880  # Явное указание порта
+app:
+  delays:
+    info:
+      min: 0
+      max: 0
+    payment:
+      min: 0
+      max: 0
+    transaction:
+      min: 2000
+      max: 2000
