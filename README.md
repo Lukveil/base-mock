@@ -20,11 +20,14 @@
 #### Вариант 1: Запуск с настройками по умолчанию
 ```bash
 java -jar microloan-issuance-0.0.1-SNAPSHOT.jar -Xms2G -Xmx4G
+```
 
 #### Вариант 2: Запуск с настройками по умолчанию
 ```bash
 java -jar microloan-issuance-0.0.1-SNAPSHOT.jar --spring.profiles.active=test1 -Xms=2G -Xms=4G
+```
 
 #### Вариант 3 Запуск с настройками по умолчанию
 ```bash
 java -jar microloan-issuance-0.0.1-SNAPSHOT.jar --spring.profiles.active=test2 -Xms=2G -Xms=4G
+```
