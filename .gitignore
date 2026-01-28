@@ -1,6 +1,10 @@
 target/
+*/target/
+**/target/
 
-!target/**/*.jar
+
+!**target/*.jar
+!**target/**/*.jar
 
 .idea/
 
